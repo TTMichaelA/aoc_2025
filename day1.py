@@ -22,17 +22,18 @@ class puzzle:
             self.dial = (self.dial + num) % 100
 
     def rotate2(self, dir, num):
-        if num > 100:
-            self.password += num // 100
+        full_rotations = num // 100
+        intra = num - full_rotations * 100
+        self.password += full_rotations
         if dir == 'L':
-            if self.dial - num <= 0:
+            if self.dial > 0 and self.dial - intra <= 0:
                 self.password += 1
-            self.dial = (self.dial - num) % 100
-            
-        else:
-            if self.dial + num >= 100:
+            self.dial = (self.dial - intra) % 100
+        if dir == 'R':
+            if self.dial + intra >= 100:
                 self.password += 1
-            self.dial = (self.dial + num) % 100
+            self.dial = (self.dial + intra) % 100
+        return self.password
 
     def get_password1(self):
         for instruction in self.dial_list:
