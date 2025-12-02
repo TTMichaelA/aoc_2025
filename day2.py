@@ -1,5 +1,4 @@
 import day2_input
-import re
 
 def validity_check(num):
     nstr = str(num)
@@ -60,4 +59,5 @@ def process_input2(input):
 if __name__ == "__main__":
     puzzle_input = day2_input.puzzle_input
     print(puzzle_input)
+    print(process_input1(puzzle_input))
     print(process_input2(puzzle_input))
