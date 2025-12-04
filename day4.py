@@ -1,3 +1,5 @@
+import time
+
 def get_coords(roll):
     m = (-1, 0, 1)
     coords = []
@@ -18,18 +20,6 @@ def remove_rolls(rolls):
         if cnt < 4:
             remove_list.add(roll)
     return remove_list
-
-
-def partone():
-    rolls = set()
-    with open("day4_input.txt") as puzzle_input:
-        h = 0
-        for line in puzzle_input:
-            l = len(line.strip("\n"))
-            for j in range(l): 
-                if line[j] == '@':
-                    rolls.add((h,j))
-            h += 1
 
 def parttwo():
     rolls = set()
@@ -58,6 +48,16 @@ def parttwo():
     print("Pt 2: ", cnt)
 
 if __name__ == "__main__":
-    partone()
+
+    # Record the start time
+    start_time = time.perf_counter()
     parttwo()
-            
+    # Record the end time
+    end_time = time.perf_counter()
+
+    # Calculate the elapsed time
+    elapsed_time = end_time - start_time
+
+    # Print the result
+    print(f"Code execution time: {elapsed_time:.6f} seconds")
+
