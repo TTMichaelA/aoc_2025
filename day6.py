@@ -43,7 +43,6 @@ def parttwo():
     groups = {}
     sum = 0
     ops = []
-    print(grid)
     for i in range(len(grid[0])):
         if grid[4][i] != ' ':
             ops.append(grid[4][i])
@@ -71,20 +70,18 @@ def parttwo():
     return sum
 
 if __name__ == "__main__":
-
-    # Record the start time
     start_time = time.perf_counter()
     cnt = partone()
-    cnt2 = parttwo()
-
-    # Record the end time
     end_time = time.perf_counter()
+    elapsed_time1 = end_time - start_time
+    
+    start_time = time.perf_counter()
+    cnt2 = parttwo()
+    end_time = time.perf_counter()
+    elapsed_time2 = end_time - start_time
 
-    # Calculate the elapsed time
-    elapsed_time = end_time - start_time
-
-    # Print the result
     print(f"Part one answer is: {cnt}")
+    print(f"Calculation time: {elapsed_time1:.6f} seconds")
     print(f"Part two answer is: {cnt2}")
-    print(f"Code execution time: {elapsed_time:.6f} seconds")
-
+    print(f"Calculation time: {elapsed_time2:.6f} seconds")
+    print(f"Total time: {(elapsed_time1 + elapsed_time2):.6f} seconds")
