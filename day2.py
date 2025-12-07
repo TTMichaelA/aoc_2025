@@ -1,3 +1,4 @@
+import time
 import day2_input
 
 def validity_check(num):
@@ -60,4 +61,8 @@ if __name__ == "__main__":
     puzzle_input = day2_input.puzzle_input
     print(puzzle_input)
     print(process_input(puzzle_input))
+    start_time = time.perf_counter()
     print(process_input2(puzzle_input))
+    end_time = time.perf_counter()
+    elapsed = end_time - start_time
+    print(f"Part two completed in {elapsed:.6f} seconds")
