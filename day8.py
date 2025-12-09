@@ -103,21 +103,19 @@ def parttwo(coords, cnt, union_find):
     return coords[n1][0] * coords[n2][0]
 
 if __name__ == "__main__":
-    # start_time = time.perf_counter()
+    start_time = time.perf_counter()
     
     co, uf = build_input()
 
     # print(co)
     # print(uf)
     cnt1 = partone(co, 1000, uf)
-    print(cnt1)
 
     x = parttwo(co, 40, uf)
-    print(x)
 
-    # end_time = time.perf_counter()
-    # elapsed = end_time - start_time
+    end_time = time.perf_counter()
+    elapsed = end_time - start_time
     
-    # print(f"Part one answer is: {p1}")
-    # print(f"Part one answer is: {p2}")
-    # print(f"Calculation time: {elapsed:.6f} seconds")
+    print(f"Part one answer is: {cnt}")
+    print(f"Part one answer is: {x}")
+    print(f"Calculation time: {elapsed:.6f} seconds")
