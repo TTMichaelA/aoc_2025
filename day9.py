@@ -106,7 +106,7 @@ def part_two(coord_input, filled_poly):
             x = abs(coord_input[i][0] - coord_input[j][0]) + 1
             y = abs(coord_input[i][1] - coord_input[j][1]) + 1
             if x * y > max_area:
-                print("Checking ", coord_input[i], "and ", coord_input[j])
+                # print("Checking ", coord_input[i], "and ", coord_input[j])
                 if check_square(coord_input[i], coord_input[j], filled_poly):
                     max_area = x * y
     return max_area
@@ -118,16 +118,17 @@ if __name__ == "__main__":
     pg = build_polygon(pi)
     pgf = fill_polygon(pg)
     ma1 = part_one(pi)    
-    print(ma1)
-    
+    end_time = time.perf_counter()
     cnt2= part_two(pi, pgf)
-    print(cnt2)
-    # end_time = time.perf_counter()
+    end_time2 = time.perf_counter()
+    
     # print(ma1)
     # for j in range(1,1):
     #     print(j)
 
-    # elapsed = end_time - start_time
-    # print(f"Part one answer is {ma1}, calculated in {elapsed:.6f} seconds")
+    elapsed = end_time - start_time
+    elapsed2 = end_time2 - start_time
+    print(f"Part one answer is {ma1}, calculated in {elapsed:.6f} seconds")
+    print(f"Part one answer is {cnt2}, calculated in {elapsed2:.6f} seconds")
 
 
