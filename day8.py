@@ -116,6 +116,6 @@ if __name__ == "__main__":
     end_time = time.perf_counter()
     elapsed = end_time - start_time
     
-    print(f"Part one answer is: {cnt}")
+    print(f"Part one answer is: {cnt1}")
     print(f"Part one answer is: {x}")
     print(f"Calculation time: {elapsed:.6f} seconds")
