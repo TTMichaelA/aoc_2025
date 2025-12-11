@@ -36,7 +36,7 @@ def partone():
     
 def parttwo():
     grid = []
-    with open("day6_input.txt") as puzzle_input:
+    with open("day06_input.txt") as puzzle_input:
         for line in puzzle_input:
             grid.append(line.strip('\n'))
     k = 0

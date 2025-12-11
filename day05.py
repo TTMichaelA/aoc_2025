@@ -36,7 +36,7 @@ def check_overlap(range1, range2):
 def parttwo():
     iranges = []
     cnt = 0
-    with open("day5_input.txt") as puzzle_input:
+    with open("day05_input.txt") as puzzle_input:
         
         for line in puzzle_input:
             input = line.strip("\n").split("-")
