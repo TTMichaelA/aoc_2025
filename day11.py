@@ -6,10 +6,8 @@ class Node:
     def __init__(self, edge_list, name):
         self.name = name
         self.edgelist = set()
-        self.value = None
-        self.dac = None
-        self.fft = None
-        self.both = None
+        self.value = 0
+        self.dist = 0
         for edge in edge_list:
             self.edgelist.add(edge)
     
@@ -18,31 +16,18 @@ class Node:
     
     def getval(self):
         return self.value
-    
-    def getdac(self):
-        return self.dac
-    
-    def setdac(self, dac):
-        self.dac = dac
-
-    def getfft(self):
-        return self.fft
-    
-    def setfft(self, fft):
-        self.fft = fft
-
-    def getboth(self):
-        return self.both
-    
-    def setboth(self, both):
-        self.both = both
-
-    def getedges(self):
-        return self.edgelist
 
     def getname(self):
         return self.name
 
+    def getedges(self):
+        return self.edgelist
+
+    def getdist(self):
+        return self.dist
+    
+    def setdist(self, dist):
+        self.dist = dist
 
 def build_graph():
     graph = {}
@@ -63,7 +48,7 @@ def build_graph():
 
 def partone(graph):
     explored = set()
-    bfs = queue.Queue()
+    bfs = queue.PriorityQueue()
     bfs.put("you")
     while not bfs.empty():
         nextup = bfs.get()
@@ -84,70 +69,77 @@ def partone(graph):
 
     return graph["out"].getval()
 
-def parttwo(graph):
+def parttwo_get_dist(graph, start, tgt):
     explored = set()
+    max_dist = 0
     bfs = queue.Queue()
-    bfs.put("svr")
+    bfs.put((0, start))
+    graph[start].setval(1)
     while not bfs.empty():
         nextup = bfs.get()
-        next = graph[nextup]
-        nname = next.getname()
-        if nname in explored:
+        curr = graph[nextup[1]]
+        cname = curr.getname()
+        cdist = curr.getdist()
+        if (cdist, cname) in explored:
             continue
-        explored.add(nname)
-        nval = next.getval()
-        
-        if nname == "fft":
-            next.setfft(nval)
-        if nname == "dac":
-            next.setdac(nval)
-        ndac = next.getdac()
-        nfft = next.getfft()
-        nboth = next.getboth()
-        
-        if ndac and nfft:
-            adj = min(ndac, nfft)
-            if nboth:
-                nboth += adj
-            else:
-                nboth = adj
-            ndac -= adj
-            nfft -= adj
+        explored.add((cdist, cname))
 
-        for edge in next.getedges():
-            currval = graph[edge].getval()
-            if not currval:
-                graph[edge].setval(nval)
-            else:    
-                graph[edge].setval(nval + currval)
-            currdac = graph[edge].getdac()
-            if not currdac and ndac:
-                graph[edge].setdac(ndac)
-            elif currdac and ndac:
-                graph[edge].setdac(currdac + ndac)
+        if cname == tgt:
+            continue
+        
+        cval = curr.getval()
+
+        # print(f"Node {cname} is {cdist} from {start} with {cval} paths")
+
+        for edge in curr.getedges():
+            eval = graph[edge].getval() + cval
+            edist = max(graph[edge].getdist(), cdist+1)
+            if edist > max_dist:
+                max_dist = edist
+            nnode = graph[edge]
+            nnode.setval(eval)
+            nnode.setdist(edist)
             
-            currfft = graph[edge].getfft()
-            if not currfft and nfft:
-                graph[edge].setfft(nfft)
-            elif currfft and nfft:
-                graph[edge].setfft(currfft + nfft)
+            bfs.put((edist,edge))
+    
+    return max_dist
 
-            currboth = graph[edge].getboth()
-            if not currboth and nboth:
-                graph[edge].setboth(nboth)
-            elif currboth and nboth:
-                graph[edge].setboth(currboth + nboth)
-                
+def part_two_set_val(graph, max_dist, start, tgt, cnt):
+    for k,v in graph.items():
+        v.setval(0)
+    graph[start].setval(cnt)    
+    for i in range(max_dist+1):
+        for k,v in graph.items():
+            if v.getdist() == i:
+                val = v.getval()
+                # print(f"node {k} at dist {i} has {val} paths")
+                for e in v.getedges():
+                    if e == 'ohl':
+                        pass
+                    graph[e].setval(graph[e].getval() + val)
+    return graph[tgt].getval()
 
 
-            bfs.put(edge)
 
-    return graph["out"].getboth()
+
 
 if __name__ == "__main__":
     pi = build_graph()
+    pi2 = build_graph()
+    pi3 = build_graph()
     # print(pi)
     # print(pi["you"].getval())
     # cnt = partone(pi)
-    cnt = parttwo(pi)
-    print(cnt)
+    max_dist = parttwo_get_dist(pi, "svr", "out")
+    cnt1 = part_two_set_val(pi, 38, "svr", "fft", 1)
+    print(cnt1)
+    cnt2 = part_two_set_val(pi, 38, "fft", "dac", 1)
+    print(cnt2)
+    cnt3 = part_two_set_val(pi, 38, "dac", "out", 1)
+    print(cnt3)
+    # dac_cnt = parttwo(pi2, "fft", "dac")
+    # out_cnt = parttwo(pi3, "dac", "out")
+    # print(fft_cnt)
+    # print(dac_cnt)
+    # print(out_cnt)
+    print(cnt1 * cnt2 * cnt3)
