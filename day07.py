@@ -4,7 +4,7 @@ def build_input():
     grid = {}
     i=0
     origin = 0
-    with open("day7_input.txt") as puzzle_input:
+    with open("day07_input.txt") as puzzle_input:
         for line in puzzle_input:
             if i == 0:
                 for k in range(len(line)):

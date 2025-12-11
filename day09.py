@@ -113,7 +113,7 @@ def part_two(coord_input, filled_poly):
 
 if __name__ == "__main__":
     start_time = time.perf_counter()
-    pi = build_input("day9_input.txt")
+    pi = build_input("day09_input.txt")
     # print(pi)
     pg = build_polygon(pi)
     pgf = fill_polygon(pg)

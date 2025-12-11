@@ -4,7 +4,7 @@ import queue
 def build_input():
     union_find = []
     coords = {}
-    with open("day8_input.txt") as puzzle_input:
+    with open("day08_input.txt") as puzzle_input:
         i = 0
         for line in puzzle_input:
             xyz = [int(x) for x in line.strip("\n").split(",")]

@@ -1,7 +1,7 @@
 import time
 def partone():
     operations = []
-    with open("day6_input.txt") as puzzle_input:
+    with open("day06_input.txt") as puzzle_input:
         for line in puzzle_input:
             line_operations = []
             i = 0

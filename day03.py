@@ -1,6 +1,6 @@
 def get_banks():
     banks = {}
-    with open("day3_input.txt") as puzzle_input:
+    with open("day03_input.txt") as puzzle_input:
         i = 0
         for line in puzzle_input:
             banks[i] = line.strip("\n")

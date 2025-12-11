@@ -23,7 +23,7 @@ def remove_rolls(rolls):
 
 def parttwo():
     rolls = set()
-    with open("day4_input.txt") as puzzle_input:
+    with open("day04_input.txt") as puzzle_input:
         h = 0
         for line in puzzle_input:
             l = len(line.strip("\n"))

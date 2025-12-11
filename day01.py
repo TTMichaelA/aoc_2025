@@ -1,4 +1,4 @@
-import day1_input
+import day01_input
 
 
 class puzzle:
@@ -51,8 +51,8 @@ class puzzle:
 
 
 if __name__ == "__main__":
-    p1 = puzzle(day1_input.puzzle)
+    p1 = puzzle(day01_input.puzzle)
     # print(p1.dial_list)
     # print(p1.get_password1())
-    p2 = puzzle(day1_input.puzzle)
+    p2 = puzzle(day01_input.puzzle)
     print(p2.get_password2())

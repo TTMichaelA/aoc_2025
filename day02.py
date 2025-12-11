@@ -1,5 +1,5 @@
 import time
-import day2_input
+import day02_input
 
 def validity_check(num):
     nstr = str(num)
@@ -58,7 +58,7 @@ def process_input2(input):
     return score
 
 if __name__ == "__main__":
-    puzzle_input = day2_input.puzzle_input
+    puzzle_input = day02_input.puzzle_input
     print(puzzle_input)
     print(process_input(puzzle_input))
     start_time = time.perf_counter()
