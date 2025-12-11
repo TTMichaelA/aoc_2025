@@ -1,6 +1,8 @@
 import time
 import re
-import queue
+import numpy as np
+from scipy.optimize import milp, LinearConstraint, Bounds
+
 
 def process_light_config(config_str):
     config_str = config_str[1:len(config_str)-1].replace(".","0").replace("#","1")
@@ -34,84 +36,40 @@ def build_input(filename):
             i += 1
         return machine_list
     
-def distance_from_joltage(putative, actual):
-    for i in range(len(putative)):
-        if putative[i] > actual[i]:
-            return -1
-        
-    return sum(putative)
+def min_presses_for_machine(buttons, joltage):
+    jol_len = len(joltage)
+    button_len = len(buttons)
 
-def check_valid(putative, actual):
+    A = np.zeros((jol_len, button_len))
+    for j, button in enumerate(buttons):
+        for i in button:
+            A[i, j] = 1
+    b = np.array(joltage)
+    c = np.ones(button_len)
 
-        
-    return 
+    constraint = LinearConstraint(A, lb=b, ub=b)
+    bounds = Bounds(lb=np.zeros(button_len), ub=np.full(button_len, np.inf))
+    res = milp(c=c,constraints=[constraint],bounds=bounds, integrality=np.ones(button_len))
 
-def handle_record(buttons, joltage):
-    brute_forcer = queue.PriorityQueue()
-    attempted = set()
-    best = sum(joltage)
-
-    button_set = (0,) * len(buttons)
-    presses = 0
-    jolt = (0,) * len(joltage)
-    dist = 0
-    
-    attempted.add(button_set)
-
-    base = (dist, presses, button_set, jolt)
-    brute_forcer.put(base)
-    
-    while not brute_forcer.empty():
-        next_record = brute_forcer.get()
-        print(next_record)
-        dist = -next_record[0]
-        presses = -next_record[1]
-        if presses > best:
-            continue
-        
-        button_set = list(next_record[2])
-        jolt = list(next_record[3])
-        for i in range(len(buttons)):
-            npresses = presses + 1
-            nbutton_set = button_set.copy()
-            nbutton_set[i] += 1
-            nbutton_set = tuple(nbutton_set)
-            if nbutton_set in attempted:
-                continue
-            njolt = jolt.copy()
-            for j in range(len(buttons[i])):
-                k = buttons[i][j]
-                njolt[k] += 1
-            njolt = tuple(njolt)
-            ndist = distance_from_joltage(njolt, joltage)
-            if ndist < 0:
-                attempted.add(nbutton_set)
-                continue
-            elif njolt == joltage:
-                attempted.add(nbutton_set)
-                if not best or npresses < best:
-                    best = npresses
-            else:
-                if nbutton_set not in attempted and npresses < best:
-                    attempted.add(nbutton_set)
-                    next = (-ndist, -npresses, nbutton_set, njolt)
-                    brute_forcer.put(next)
-
-    return best
+    presses = int(round(res.fun))
 
 
-            
-
-    
+    return presses
 
 
 if __name__ == "__main__":
+    start_time = time.perf_counter()
     pi = build_input("day10_input.py")
-    for i in range(1):
+    sum = 0
+    for i in range(len(pi)):
         j = pi[i]["j"]
         b = pi[i]["b"]
-        best = handle_record(b, j)
+        best = min_presses_for_machine(b, j)
         print(best)
+        sum += best
+    end_time = time.perf_counter()
+    elapsed = end_time - start_time
+    print(f"Max presses is {sum}, calculated in {elapsed:.6f} seconds.")
     
 
     
