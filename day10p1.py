@@ -85,7 +85,12 @@ def part_one(puzzle_input):
 
 
 if __name__ == "__main__":
+
+    start_time = time.perf_counter()
     pi = build_input("day10_input.py")
     
     cnt1 = part_one(pi)
-    print(cnt1)
+    end_time = time.perf_counter()
+    elapsed = end_time - start_time
+
+    print(f"Day 10 pt. 1 done in {elapsed:.6f} seconds with value {cnt1}")
