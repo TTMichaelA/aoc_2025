@@ -48,7 +48,7 @@ def build_graph():
 
 def partone(graph):
     explored = set()
-    bfs = queue.PriorityQueue()
+    bfs = queue.Queue()
     bfs.put("you")
     while not bfs.empty():
         nextup = bfs.get()
@@ -64,7 +64,6 @@ def partone(graph):
                 graph[edge].setval(nval)
             else:    
                 graph[edge].setval(nval + currval)
-            
             bfs.put(edge)
 
     return graph["out"].getval()
@@ -124,22 +123,26 @@ def part_two_set_val(graph, max_dist, start, tgt, cnt):
 
 
 if __name__ == "__main__":
+    start_time = time.perf_counter()
     pi = build_graph()
     pi2 = build_graph()
     pi3 = build_graph()
     # print(pi)
-    # print(pi["you"].getval())
-    # cnt = partone(pi)
+    print(pi["you"].getval())
+    cnt = partone(pi)
     max_dist = parttwo_get_dist(pi, "svr", "out")
     cnt1 = part_two_set_val(pi, 38, "svr", "fft", 1)
-    print(cnt1)
+    # print(cnt1)
     cnt2 = part_two_set_val(pi, 38, "fft", "dac", 1)
-    print(cnt2)
+    # print(cnt2)
     cnt3 = part_two_set_val(pi, 38, "dac", "out", 1)
-    print(cnt3)
+    end_time = time.perf_counter()
+    elapsed = end_time - start_time
+    # print(cnt3)
     # dac_cnt = parttwo(pi2, "fft", "dac")
     # out_cnt = parttwo(pi3, "dac", "out")
     # print(fft_cnt)
     # print(dac_cnt)
     # print(out_cnt)
-    print(cnt1 * cnt2 * cnt3)
+    # print(cnt1 * cnt2 * cnt3)
+    print(f"p1: {cnt}, p2: {cnt1*cnt2*cnt3} in {(elapsed):.6f} seconds")
